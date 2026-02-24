@@ -1,0 +1,32 @@
+{
+  "name": "dev-tinder-be",
+  "version": "1.0.0",
+  "description": "tinder for devs",
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "homepage": "https://github.com/anuragarya8/Dev-Tinder-BE#readme",
+  "bugs": {
+    "url": "https://github.com/anuragarya8/Dev-Tinder-BE/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuragarya8/Dev-Tinder-BE.git"
+  },
+  "license": "ISC",
+  "author": "Anurag Arya",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
