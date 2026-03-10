@@ -40,11 +40,34 @@ app.delete("/user", async (req, res) => {
 })
 
 app.patch("/user", async (req, res) => {
+
     const userId = req.body.id
+    const data = req.body
+
     try {
-        const user = await User.findByIdAndUpdate(userId, req.body, {
+        const ALLOWED_UPDATES = [
+            "firstName",
+            "lastName",
+            "age",
+            "gender",
+            "password",
+            "photoUrl",
+            "bio",
+            "skills"
+        ]
+
+        const allowedUpdates = Object.keys(data).every((key) => ALLOWED_UPDATES.includes(key))
+        if (!allowedUpdates) {
+            return res.status(400).send("Updating email not allowed")
+        }
+
+        if (data?.skills.length > 10) {
+            throw new Error("You can only have 10 skills")
+        }
+
+        const user = await User.findByIdAndUpdate(userId, data, {
             returnDocument: "after",
-            runValidators: requestAnimationFrame,
+            runValidators: true,
         })
         if (!user) {
             return res.status(404).send("User not found")
@@ -55,29 +78,12 @@ app.patch("/user", async (req, res) => {
     }
 })
 
-
-// app.patch("/user", async (req, res) => {
-//     const userEmail = req.body.email
-//     const data = req.body
-//     try {
-//         const user = await User.findOneAndUpdate({ userEmail }, { data })
-//         if (!user) {
-//             return res.status(404).send("User not found")
-//         }
-//         res.send("User updated successfully")
-//     } catch (err) {
-//         res.status(400).send("Error updating the user" + err.message)
-//     }
-// })
-
-
 connectDB().then(() => {
     console.log("Database connection established");
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`)
     })
-})
-    .catch((err) => {
-        console.error("Database can't be connected!!");
-    });
+}).catch((err) => {
+    console.error("Database can't be connected!!");
+});
 
